@@ -7,7 +7,7 @@ def busy_loop():
 if __name__ == "__main__":
 
     num_processes = 2
-    processess = []
+    processes = []
 
     for i in range(num_processes):
         p = multiprocessing.Process(target=busy_loop)

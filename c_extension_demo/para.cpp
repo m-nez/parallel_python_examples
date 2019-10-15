@@ -21,18 +21,28 @@ para_busy2(PyObject *self, PyObject *args)
         threads[i]->join();
         delete threads[i];
     }
-    //std::thread thread(busy_loop);
-    //thread.join();
 
-
-
-    Py_IncRef(Py_None);
+    Py_INCREF(Py_None);
     return Py_None;
+}
+
+static PyObject *
+make_garbage(PyObject *self, PyObject *args)
+{
+    long v = 1337;
+    PyObject* wrapped_long = PyLong_FromLong(v);
+    Py_INCREF(wrapped_long);
+    Py_DECREF(wrapped_long);
+    Py_DECREF(wrapped_long);
+    Py_DECREF(wrapped_long);
+    return wrapped_long;
 }
 
 static PyMethodDef para_methods[] = {
     {"busy2",  para_busy2, METH_NOARGS,
      "Busy loop on 2 threads."},
+    {"make_garbage",  make_garbage, METH_NOARGS,
+     "Return a value which has no references."},
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
